@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import java.lang.Double?>
+
+
+
+<GridPane fx:id="rootGird" prefHeight="600.0" prefWidth="800.0" stylesheets="/styles/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainXMLController">
+    <FlowPane fx:id="titleBar" prefWidth="800" prefHeight="40" GridPane.columnIndex="0" GridPane.rowIndex="0"></FlowPane>
+  <FlowPane fx:id="containerTypeText" GridPane.columnIndex="0" GridPane.rowIndex="1">
+      <TextArea prefHeight="200" prefWidth="800" editable="false" fx:id="typeIt"/>
+  </FlowPane>
+
+    <GridPane fx:id="wraperKeyboardRow" GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" >
+
+        <FlowPane fx:id="firstKeyboardRow" alignment="CENTER" hgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="800.0">
+
+            <Button fx:id="btnQ" text="q" />
+            <Button fx:id="btnW" text="w" />
+            <Button fx:id="btnE" text="e" />
+            <Button fx:id="btnR" text="r" />
+            <Button fx:id="btnT" text="t" />
+            <Button fx:id="btnY" text="y" />
+            <Button fx:id="btnU" text="u" />
+            <Button fx:id="btnI" text="i" />
+            <Button fx:id="btnO" text="o" />
+            <Button fx:id="btnP" text="p" />
+
+            <GridPane.margin>
+                <Insets bottom="10.0" top="20.0" left="-60.0" />
+            </GridPane.margin>
+
+        </FlowPane>
+
+        <FlowPane fx:id="secondKeyboardRow" alignment="CENTER" hgap="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
+
+            <Button fx:id="btnA" text="a" />
+            <Button fx:id="btnS" text="s" />
+            <Button fx:id="btnD" text="d" />
+            <Button fx:id="btnF" text="f" />
+            <Button fx:id="btnG" text="g" />
+            <Button fx:id="btnH" text="h" />
+            <Button fx:id="btnJ" text="j" />
+            <Button fx:id="btnK" text="k" />
+            <Button fx:id="btnL" text="l" />
+            <Button fx:id="btnSemicolon" text=";" />
+            <Button fx:id="btnApostrophe" text="'" />
+
+            <GridPane.margin>
+                <Insets bottom="10.0" />
+            </GridPane.margin>
+
+        </FlowPane>
+
+        <FlowPane fx:id="thirdKeyboardRow" alignment="CENTER" hgap="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
+
+            <Button fx:id="btnZ" text="z" />
+            <Button fx:id="btnX" text="x" />
+            <Button fx:id="btnC" text="c" />
+            <Button fx:id="btnV" text="v" />
+            <Button fx:id="btnB" text="b" />
+            <Button fx:id="btnN" text="n" />
+            <Button fx:id="btnM" text="m" />
+            <Button fx:id="btnComa" text="," />
+            <Button fx:id="btnDot" text="." />
+            <Button fx:id="btnSlash" text="/" />
+            <GridPane.margin>
+                <Insets bottom="10.0" />
+            </GridPane.margin>
+
+        </FlowPane>
+        <FlowPane fx:id="fourthKeyboardRow" alignment="CENTER" hgap="10" GridPane.columnIndex="0" GridPane.rowIndex="3">
+
+            <Button fx:id="space" text="Space"  prefWidth="400" prefHeight="40"/>
+            <GridPane.margin>
+                <Insets bottom="10.0"/>
+            </GridPane.margin>
+
+        </FlowPane>
+
+
+    </GridPane>
+    <FlowPane fx:id="startWrapper" prefWidth="800" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
+        <Button fx:id="startBtn" text="Start"/>
+    </FlowPane>
+
+
+</GridPane>

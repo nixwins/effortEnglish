@@ -1,0 +1,36 @@
+.MTrimBar {
+    background-color: #000000;
+}
+#rootGird{
+    -fx-background-color:#424250;
+    /* dark:38006b; light:9c4dcc*/
+}
+#wraperKeyboardRow{
+    -fx-background-color:#33333D;
+}
+FlowPane{
+    -fx-background-color:#38006b;
+}
+.btn-default-theme{
+    -fx-padding:5 10 5 10q;
+    -fx-border-radius:5;
+    -fx-background-color:orange;
+    -fx-text-fill:white;
+    -fx-font-weight:bold;
+    -fx-border:1;
+    -fx-border-color:orange;
+    -fx-font-size:18;
+    -fx-font-family:'Verdana';
+
+}
+/*.btn-default-theme:pressed{
+    -fx-background-color:#4CAF50;
+}*/
+.btn-typed{
+    -fx-background-color:#4CAF50;
+}
+TextArea{
+-fx-outline:none;
+-fx-border-color:orange;
+-fx-border:none;
+}
