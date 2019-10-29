@@ -3,18 +3,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import java.lang.Double?>
 
 
-
+<?import javafx.scene.text.TextFlow?>
 <GridPane fx:id="rootGird" prefHeight="600.0" prefWidth="800.0" stylesheets="/styles/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainXMLController">
     <FlowPane fx:id="titleBar" prefWidth="800" prefHeight="40" GridPane.columnIndex="0" GridPane.rowIndex="0"></FlowPane>
   <FlowPane fx:id="containerTypeText" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <TextArea prefHeight="200" prefWidth="800" editable="false" fx:id="typeIt"/>
+      <TextFlow fx:id="textFlow" prefHeight="200" prefWidth="699"/>
   </FlowPane>
 
     <GridPane fx:id="wraperKeyboardRow" GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" >

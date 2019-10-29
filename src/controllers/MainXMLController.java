@@ -15,6 +15,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import model.DefaultTextModel;
 import model.Model;
@@ -34,10 +37,15 @@ public class MainXMLController extends  BaseController implements Initializable{
     private static double xOffset = 0;
     private static double yOffset = 0;
 
+    char[] currentText;
+    static int currTxtIndx = 0;
+
     private static int currentIndex = 0;
 
     @FXML
     private FlowPane titleBar;
+    @FXML
+    private FlowPane containerTypeText;
     @FXML
     private GridPane rootGird;
 
@@ -47,6 +55,8 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     @FXML
     private TextArea typeIt;
+    @FXML
+    private TextFlow textFlow;
     @FXML
     private Button space;
 
@@ -58,7 +68,11 @@ public class MainXMLController extends  BaseController implements Initializable{
         setTypeItText();
         installEventHandlerStage();
         scene = rootGird.getScene();
+
+        textFlow.getStyleClass().add("textflow");
        // println(rootGird.getScene());
+
+
     }
 
     public void setTypeItText(){
@@ -66,10 +80,45 @@ public class MainXMLController extends  BaseController implements Initializable{
         typeIt.setText(new DefaultTextModel().getTypeText());
     }
 
+
+
+    public void setTypeItTextFlow(String txtChanged){
+        //textFlow.getChildren().clear();
+        String baseText = new DefaultTextModel().getTypeText();
+        println("Base text ==>" + baseText.substring(0,1).toCharArray()[0]);
+        currentText[0] = baseText.substring(0,1).toCharArray()[0];
+        currentText[currTxtIndx] = txtChanged.toCharArray()[0];
+        String str = Arrays.toString(currentText);
+        String cutText = baseText.replace(str, "");
+
+        Text oldTxt = new Text(cutText);
+        Text newTxt = new Text(txtChanged);
+        newTxt.setFill(Color.GREEN);
+        currTxtIndx++;
+
+        textFlow.getChildren().addAll(newTxt, oldTxt);
+
+    }
+
+
     public void setPrimaryStage(Stage stage){
         primaryStage = stage;
     }
+    private TextFlow changeCharColor(){
 
+        TextFlow textFlowPane = new TextFlow();
+        textFlowPane.setPrefWidth(400);
+        textFlowPane.setPrefHeight(100);
+        textFlowPane.getStyleClass().add("textFlow");
+        Text redText = new Text("This is red text...");
+        redText.setFill(Color.RED);
+        Text greenText = new Text("followed by green text");
+        greenText.setFill(Color.GREEN);
+        textFlowPane.getChildren().addAll(redText, greenText);
+        containerTypeText.getChildren().add(textFlowPane);
+
+        return textFlowPane;
+    }
     /* ActionListners  */
     private void println(Object object){
         System.out.println(object);
@@ -127,9 +176,15 @@ public class MainXMLController extends  BaseController implements Initializable{
 
         char[] textArray = typeIt.getText().toCharArray();
        /// println("correct() " + character);
+        if(currentIndex >= textArray.length) currentIndex = 0;
+
         if(textArray[currentIndex] == character){
             println(character + " Right");
+          //  textFlow.getChildren().clear();
+            setTypeItTextFlow(Character.toString(character));
+
             currentIndex++;
+
         }
 
 
