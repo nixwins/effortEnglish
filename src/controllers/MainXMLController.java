@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.lang.System.*;
+import java.util.stream.Collectors;
 
 public class MainXMLController extends  BaseController implements Initializable{
 
@@ -37,7 +38,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     private static double xOffset = 0;
     private static double yOffset = 0;
 
-    char[] currentText;
+    List<Character> currentText = new ArrayList<>();
     static int currTxtIndx = 0;
 
     private static int currentIndex = 0;
@@ -83,19 +84,27 @@ public class MainXMLController extends  BaseController implements Initializable{
 
 
     public void setTypeItTextFlow(String txtChanged){
-        //textFlow.getChildren().clear();
+
+        // Получаем текст по дефолту
         String baseText = new DefaultTextModel().getTypeText();
         println("Base text ==>" + baseText.substring(0,1).toCharArray()[0]);
-        currentText[0] = baseText.substring(0,1).toCharArray()[0];
-        currentText[currTxtIndx] = txtChanged.toCharArray()[0];
-        String str = Arrays.toString(currentText);
+
+        // Введенные символы записываем лист как Character
+        currentText.add(currentIndex, txtChanged.toCharArray()[0]);
+
+        //Getting String from List;
+        String str = currentText.stream().map(Object::toString)
+                .collect(Collectors.joining(""));
+
+        // Вырезаем строку из Дефолтного убираем введенные символы
         String cutText = baseText.replace(str, "");
 
         Text oldTxt = new Text(cutText);
-        Text newTxt = new Text(txtChanged);
+        Text newTxt = new Text(str);
         newTxt.setFill(Color.GREEN);
         currTxtIndx++;
 
+        textFlow.getChildren().clear();
         textFlow.getChildren().addAll(newTxt, oldTxt);
 
     }
@@ -104,21 +113,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     public void setPrimaryStage(Stage stage){
         primaryStage = stage;
     }
-    private TextFlow changeCharColor(){
 
-        TextFlow textFlowPane = new TextFlow();
-        textFlowPane.setPrefWidth(400);
-        textFlowPane.setPrefHeight(100);
-        textFlowPane.getStyleClass().add("textFlow");
-        Text redText = new Text("This is red text...");
-        redText.setFill(Color.RED);
-        Text greenText = new Text("followed by green text");
-        greenText.setFill(Color.GREEN);
-        textFlowPane.getChildren().addAll(redText, greenText);
-        containerTypeText.getChildren().add(textFlowPane);
-
-        return textFlowPane;
-    }
     /* ActionListners  */
     private void println(Object object){
         System.out.println(object);
@@ -131,7 +126,6 @@ public class MainXMLController extends  BaseController implements Initializable{
             public void handle(MouseEvent mouseEvent) {
                 xOffset = primaryStage.getX() - mouseEvent.getScreenX();
                 yOffset = primaryStage.getY() - mouseEvent.getScreenY();
-                //println("stageFROM event " + primaryStage.getY() );
             }
         });
 
@@ -152,8 +146,6 @@ public class MainXMLController extends  BaseController implements Initializable{
                if(keyEvent.getEventType() == KeyEvent.KEY_TYPED){
                    correctCharacterPressed(keyEvent.getCharacter().toCharArray()[0]);
                }
-
-               //println(keyEvent.getCode());
            }
        };
 
@@ -179,12 +171,13 @@ public class MainXMLController extends  BaseController implements Initializable{
         if(currentIndex >= textArray.length) currentIndex = 0;
 
         if(textArray[currentIndex] == character){
+
             println(character + " Right");
-          //  textFlow.getChildren().clear();
             setTypeItTextFlow(Character.toString(character));
-
             currentIndex++;
+        }else{
 
+            //Если введенные символ не правильно то красим на Красный
         }
 
 
