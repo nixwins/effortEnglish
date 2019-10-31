@@ -85,7 +85,7 @@
 
     </GridPane>
     <FlowPane fx:id="startWrapper" prefWidth="800" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
-        <Button fx:id="startBtn" text="Start"/>
+        <Button fx:id="startBtn" text="Start" onMouseClicked="#startType"/>
     </FlowPane>
 
 

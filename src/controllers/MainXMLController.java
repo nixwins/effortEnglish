@@ -1,19 +1,25 @@
 package controllers;
 
+import base.PopupMaker;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import model.DefaultTextModel;
 
@@ -21,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class MainXMLController extends  BaseController implements Initializable{
@@ -31,9 +38,9 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     private String typeIt;
     private List<Character> currentText = new ArrayList<>();
-    private static int currTxtIndx = 0;
+    //private static int currTxtIndx = 0;
 
-    private static int currentIndex = 0;
+    private static int idxTypeIt = 0;
 
     @FXML
     private FlowPane titleBar;
@@ -49,6 +56,8 @@ public class MainXMLController extends  BaseController implements Initializable{
     private TextFlow textFlow;
     @FXML
     private Button space;
+    @FXML
+    private Button startBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,33 +70,26 @@ public class MainXMLController extends  BaseController implements Initializable{
         textFlow.getStyleClass().add("textflow");
     }
 
+    @FXML public void startType(){
+
+        textFlow.getChildren().clear();
+        setTypeItText(Color.CORAL);
+        idxTypeIt = 0;
+        currentText = new ArrayList<>();
+        startBtn.setFocusTraversable(false);
+
+    }
+
     public void setTypeItText() {
         this.typeIt = new DefaultTextModel().getTypeText();
         textFlow.getChildren().add(new Text(typeIt));
     }
 
-    public void renderPressedText(String txtChanged){
-
-        // Введенные символы записываем лист как Character
-        currentText.add(currentIndex, txtChanged.toCharArray()[0]);
-
-        //Getting String from List;
-        String str = currentText.stream().map(Object::toString)
-                .collect(Collectors.joining(""));
-
-        // Вырезаем строку из Дефолтного убираем введенные символы
-        String cutText = typeIt.replace(str, "");
-
-        Text oldTxt = new Text(cutText);
-        Text newTxt = new Text(str);
-
-        newTxt.setFill(Color.GREEN);
-
-        currTxtIndx++;
-
-        textFlow.getChildren().clear();
-        textFlow.getChildren().addAll(newTxt, oldTxt);
-
+    public void setTypeItText(Color color) {
+        this.typeIt = new DefaultTextModel().getTypeText();
+        Text txt = new Text(typeIt);
+        txt.setFill(color);
+        textFlow.getChildren().add(txt);
     }
 
     public void setPrimaryStage(Stage stage){
@@ -126,7 +128,7 @@ public class MainXMLController extends  BaseController implements Initializable{
            public void handle(KeyEvent keyEvent) {
                changeBtnStyle(keyEvent.getCharacter(), keyEvent.getCode(), keyEvent.getEventType());
                if(keyEvent.getEventType() == KeyEvent.KEY_TYPED){
-                   correctCharacterPressed(keyEvent.getCharacter().toCharArray()[0]);
+                   checkPressedChar(keyEvent.getCharacter().toCharArray()[0]);
                }
            }
        };
@@ -148,21 +150,75 @@ public class MainXMLController extends  BaseController implements Initializable{
     }
 
     /*Logic*/
-    private void correctCharacterPressed(char character){
+    public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
-        char[] textArray = typeIt.toCharArray();
+        Text oldTxt = new Text();
+        Text newTxt = new Text();
+        Text errTxt = new Text();
 
-        if(currentIndex >= textArray.length) currentIndex = 0;
+        if(correct){
 
-        if(textArray[currentIndex] == character){
+            // Введенные символы записываем лист как Character
+            currentText.add(idxTypeIt, pressedChar.toCharArray()[0]);
 
-            println(character + " Right");
-            renderPressedText(Character.toString(character));
-            currentIndex++;
+            newTxt.setFill(Color.GREEN);
+            //currTxtIndx++;
 
         }else{
 
+            errTxt.setText(nextChar);
+            newTxt.setFill(Color.AQUA);
+            errTxt.setFill(Color.RED);
+        }
+
+        //Getting String from List;
+        String str = currentText.stream().map(Object::toString)
+                .collect(Collectors.joining(""));
+
+        // Вырезаем строку из Дефолтного убираем введенные символы
+        String cutText;
+
+        if(!correct && str.length() < typeIt.length()) {
+            println(str.length());
+             cutText = typeIt.replace(str, "").substring(1);
+        }else{
+             cutText = typeIt.replace(str, "");
+        }
+
+        oldTxt.setText(cutText);
+        newTxt.setText(str);
+
+        if(str.length() == typeIt.length()){
+
+            PopupMaker popupMaker = new PopupMaker();
+            popupMaker.endOfTypingText(primaryStage);
+
+        }
+        if(str.length() == typeIt.length() || str.length() < typeIt.length()){
+
+            textFlow.getChildren().clear();
+            textFlow.getChildren().addAll(newTxt, errTxt , oldTxt);
+
+        }
+
+    }
+
+    private void checkPressedChar(char character){
+
+        char[] textArray = typeIt.toCharArray();
+
+        if(idxTypeIt >= textArray.length) idxTypeIt = 0;
+
+        if(textArray[idxTypeIt] == character){
+
+            println(character + " Right");
+            renderPressedText(Character.toString(character), true, String.valueOf(textArray[idxTypeIt]));
+            idxTypeIt++;
+
+        }else if(idxTypeIt <= textArray.length){
+
             //Если введенные символ не правильно то красим на Красный
+            renderPressedText(Character.toString(character), false, String.valueOf(textArray[idxTypeIt]));
         }
     }
 
@@ -180,12 +236,12 @@ public class MainXMLController extends  BaseController implements Initializable{
             if (keyCode == KeyCode.SPACE) {
                 space.getStyleClass().remove("btn-typed");
                 space.getStyleClass().add("btn-typed");
-                println(space);
+                //println(space);
             }
 
             if(btn.getText().equals(character)){
                 println(btn);
-                btn.getStyleClass().add("btn-typed");
+               // btn.getStyleClass().add("btn-typed");
             }
         }
     }
