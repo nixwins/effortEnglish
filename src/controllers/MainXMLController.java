@@ -1,15 +1,11 @@
 package controllers;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -20,26 +16,22 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import model.DefaultTextModel;
-import model.Model;
 
 import java.net.URL;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.lang.System.*;
 import java.util.stream.Collectors;
 
 public class MainXMLController extends  BaseController implements Initializable{
 
     private Stage primaryStage;
-    private Scene scene;
     private static double xOffset = 0;
     private static double yOffset = 0;
 
-    List<Character> currentText = new ArrayList<>();
-    static int currTxtIndx = 0;
+    private String typeIt;
+    private List<Character> currentText = new ArrayList<>();
+    private static int currTxtIndx = 0;
 
     private static int currentIndex = 0;
 
@@ -53,9 +45,6 @@ public class MainXMLController extends  BaseController implements Initializable{
     @FXML
     private FlowPane firstKeyboardRow, secondKeyboardRow, thirdKeyboardRow, fourthKeyboardRow;
 
-
-    @FXML
-    private TextArea typeIt;
     @FXML
     private TextFlow textFlow;
     @FXML
@@ -67,27 +56,17 @@ public class MainXMLController extends  BaseController implements Initializable{
         dragUndecoratedWindow();
         setKeyboardThemes();
         setTypeItText();
-        installEventHandlerStage();
-        scene = rootGird.getScene();
+        installEventHandlerWindow();
 
         textFlow.getStyleClass().add("textflow");
-       // println(rootGird.getScene());
-
-
     }
 
-    public void setTypeItText(){
-
-        typeIt.setText(new DefaultTextModel().getTypeText());
+    public void setTypeItText() {
+        this.typeIt = new DefaultTextModel().getTypeText();
+        textFlow.getChildren().add(new Text(typeIt));
     }
 
-
-
-    public void setTypeItTextFlow(String txtChanged){
-
-        // Получаем текст по дефолту
-        String baseText = new DefaultTextModel().getTypeText();
-        println("Base text ==>" + baseText.substring(0,1).toCharArray()[0]);
+    public void renderPressedText(String txtChanged){
 
         // Введенные символы записываем лист как Character
         currentText.add(currentIndex, txtChanged.toCharArray()[0]);
@@ -97,11 +76,13 @@ public class MainXMLController extends  BaseController implements Initializable{
                 .collect(Collectors.joining(""));
 
         // Вырезаем строку из Дефолтного убираем введенные символы
-        String cutText = baseText.replace(str, "");
+        String cutText = typeIt.replace(str, "");
 
         Text oldTxt = new Text(cutText);
         Text newTxt = new Text(str);
+
         newTxt.setFill(Color.GREEN);
+
         currTxtIndx++;
 
         textFlow.getChildren().clear();
@@ -109,15 +90,15 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     }
 
-
     public void setPrimaryStage(Stage stage){
         primaryStage = stage;
     }
 
-    /* ActionListners  */
     private void println(Object object){
         System.out.println(object);
     }
+
+    /* ActionListners  */
 
     private void dragUndecoratedWindow(){
 
@@ -138,7 +119,8 @@ public class MainXMLController extends  BaseController implements Initializable{
         });
     }
 
-    private void installEventHandlerStage(){
+    private void installEventHandlerWindow(){
+
        EventHandler<KeyEvent> keyEventEventHandler = new EventHandler<KeyEvent>() {
            @Override
            public void handle(KeyEvent keyEvent) {
@@ -151,9 +133,11 @@ public class MainXMLController extends  BaseController implements Initializable{
 
         rootGird.addEventFilter(KeyEvent.ANY, keyEventEventHandler);
     }
+
     /* End ActionListners */
 
-    private List<Node> getAllBtn(){
+    private List<Node> getKeyboardButton(){
+
         List<Node> allBtn = new ArrayList<>();
         allBtn.addAll(firstKeyboardRow.getChildren());
         allBtn.addAll(secondKeyboardRow.getChildren());
@@ -166,28 +150,27 @@ public class MainXMLController extends  BaseController implements Initializable{
     /*Logic*/
     private void correctCharacterPressed(char character){
 
-        char[] textArray = typeIt.getText().toCharArray();
-       /// println("correct() " + character);
+        char[] textArray = typeIt.toCharArray();
+
         if(currentIndex >= textArray.length) currentIndex = 0;
 
         if(textArray[currentIndex] == character){
 
             println(character + " Right");
-            setTypeItTextFlow(Character.toString(character));
+            renderPressedText(Character.toString(character));
             currentIndex++;
+
         }else{
 
             //Если введенные символ не правильно то красим на Красный
         }
-
-
     }
 
     /* Вывести отдельный Класс Темы */
 
     private void changeBtnStyle(String character, KeyCode keyCode, EventType eventType){
 
-        List<Node> allBtn = getAllBtn();
+        List<Node> allBtn = getKeyboardButton();
 
         for(int i=0; i<allBtn.size(); i++){
 
@@ -208,7 +191,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     }
 
     private void setKeyboardThemes(){
-      List<Node> btn = getAllBtn();
+      List<Node> btn = getKeyboardButton();
 
       for(int i=0; i < btn.size(); i++){
             btn.get(i).getStyleClass().add("btn-default-theme");
@@ -216,7 +199,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     }
 
     private void setKeyboardThemes(String theme){
-        List<Node> btn = getAllBtn();
+        List<Node> btn = getKeyboardButton();
 
         for(int i=0; i < btn.size(); i++){
             btn.get(i).getStyleClass().add(theme);
