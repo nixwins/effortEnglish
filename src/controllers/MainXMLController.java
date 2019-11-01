@@ -73,13 +73,14 @@ public class MainXMLController extends  BaseController implements Initializable{
     }
 
     @FXML public void startType(){
+        resetTyping();
+    }
 
+    public void resetTyping(){
         textFlow.getChildren().clear();
         setTypeItText(Color.CORAL);
         idxTypeIt = 0;
         currentText = new ArrayList<>();
-        startBtn.setFocusTraversable(false);
-
     }
 
     public void setTypeItText() {
@@ -154,8 +155,9 @@ public class MainXMLController extends  BaseController implements Initializable{
     /*Logic*/
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
-        PopupEndOfTypingXMLController popupEndOfTypingXMLController = new PopupEndOfTypingXMLController(primaryStage);
-        popupEndOfTypingXMLController.showPopup();
+        PopupMaker popupMaker = new PopupMaker(primaryStage);
+        popupMaker.endOfTypingText(this);
+
         Text oldTxt = new Text();
         Text newTxt = new Text();
         Text errTxt = new Text();

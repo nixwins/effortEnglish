@@ -42,3 +42,7 @@ TextArea{
 .popup{
     -fx-background-color:red;
 }
+
+.statics-wrapper{
+    fx-background-color:#424250;
+}
