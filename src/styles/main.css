@@ -38,3 +38,7 @@ TextArea{
     -fx-background-color:orange;
     -fx-font-size:50;
 }
+
+.popup{
+    -fx-background-color:red;
+}

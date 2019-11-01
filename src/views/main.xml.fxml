@@ -8,7 +8,12 @@
 
 
 <?import javafx.scene.text.TextFlow?>
-<GridPane fx:id="rootGird" prefHeight="600.0" prefWidth="800.0" stylesheets="/styles/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainXMLController">
+
+<GridPane fx:id="rootGird" prefHeight="600.0" prefWidth="800.0" stylesheets="/styles/main.css"
+          xmlns="http://javafx.com/javafx/11.0.1"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="controllers.MainXMLController">
+
     <FlowPane fx:id="titleBar" prefWidth="800" prefHeight="40" GridPane.columnIndex="0" GridPane.rowIndex="0"></FlowPane>
   <FlowPane fx:id="containerTypeText" GridPane.columnIndex="0" GridPane.rowIndex="1">
 <!--      <TextArea prefHeight="200" prefWidth="800" editable="false" fx:id="typeIt"/>-->

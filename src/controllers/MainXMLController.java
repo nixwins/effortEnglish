@@ -67,6 +67,8 @@ public class MainXMLController extends  BaseController implements Initializable{
         setTypeItText();
         installEventHandlerWindow();
 
+
+
         textFlow.getStyleClass().add("textflow");
     }
 
@@ -152,11 +154,13 @@ public class MainXMLController extends  BaseController implements Initializable{
     /*Logic*/
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
+        PopupEndOfTypingXMLController popupEndOfTypingXMLController = new PopupEndOfTypingXMLController(primaryStage);
+        popupEndOfTypingXMLController.showPopup();
         Text oldTxt = new Text();
         Text newTxt = new Text();
         Text errTxt = new Text();
 
-        if(correct){
+        if(correct && idxTypeIt <= typeIt.length()){
 
             // Введенные символы записываем лист как Character
             currentText.add(idxTypeIt, pressedChar.toCharArray()[0]);
@@ -164,7 +168,7 @@ public class MainXMLController extends  BaseController implements Initializable{
             newTxt.setFill(Color.GREEN);
             //currTxtIndx++;
 
-        }else{
+        }else if(currentText.size() < typeIt.length()){
 
             errTxt.setText(nextChar);
             newTxt.setFill(Color.AQUA);
@@ -179,7 +183,6 @@ public class MainXMLController extends  BaseController implements Initializable{
         String cutText;
 
         if(!correct && str.length() < typeIt.length()) {
-            println(str.length());
              cutText = typeIt.replace(str, "").substring(1);
         }else{
              cutText = typeIt.replace(str, "");
@@ -188,18 +191,20 @@ public class MainXMLController extends  BaseController implements Initializable{
         oldTxt.setText(cutText);
         newTxt.setText(str);
 
-        if(str.length() == typeIt.length()){
+        if(str.length() >= typeIt.length()){
 
-            PopupMaker popupMaker = new PopupMaker();
-            popupMaker.endOfTypingText(primaryStage);
+//            PopupMaker popupMaker = new PopupMaker();
+//            popupMaker.endOfTypingText(primaryStage);
+
 
         }
+        //println("Str length " + str.length() + " typeIt length " + typeIt.length());
         if(str.length() == typeIt.length() || str.length() < typeIt.length()){
 
             textFlow.getChildren().clear();
             textFlow.getChildren().addAll(newTxt, errTxt , oldTxt);
-
         }
+
 
     }
 
@@ -237,11 +242,6 @@ public class MainXMLController extends  BaseController implements Initializable{
                 space.getStyleClass().remove("btn-typed");
                 space.getStyleClass().add("btn-typed");
                 //println(space);
-            }
-
-            if(btn.getText().equals(character)){
-                println(btn);
-               // btn.getStyleClass().add("btn-typed");
             }
         }
     }

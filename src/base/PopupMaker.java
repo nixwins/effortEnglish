@@ -16,7 +16,7 @@ public class PopupMaker {
         dialog.initOwner(primaryStage);
 
         VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("This is a Dialog"));
+        dialogVbox.getChildren().add(new Text(""));
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
 
