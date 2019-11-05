@@ -69,13 +69,13 @@ public class MainXMLController extends  BaseController implements Initializable{
         dragUndecoratedWindow();
         setKeyboardThemes();
         setTypeItText();
-
+        installEventHandlerWindow();
     }
 
     @FXML
     public void startTyping(){
 
-        installEventHandlerWindow();
+        //installEventHandlerWindow();
         resetTyping();
 
         EventHandler<KeyEvent> eventHandlerTypingTxtFl = new EventHandler<KeyEvent>() {
@@ -177,7 +177,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
         PopupMaker popupMaker = new PopupMaker(primaryStage);
-      //  popupMaker.endOfTypingText(this);
+
 
         Text oldTxt = new Text();
         Text newTxt = new Text();
@@ -215,7 +215,7 @@ public class MainXMLController extends  BaseController implements Initializable{
         newTxt.setText(str);
 
         if(str.length() >= typeIt.length()){
-
+            popupMaker.endOfTypingText(this);
 //            PopupMaker popupMaker = new PopupMaker();
 //            popupMaker.endOfTypingText(primaryStage);
 
