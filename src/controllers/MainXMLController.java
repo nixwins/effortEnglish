@@ -69,25 +69,34 @@ public class MainXMLController extends  BaseController implements Initializable{
         dragUndecoratedWindow();
         setKeyboardThemes();
         setTypeItText();
+
+    }
+
+    @FXML
+    public void startTyping(){
+
+        installEventHandlerWindow();
+        resetTyping();
+
         EventHandler<KeyEvent> eventHandlerTypingTxtFl = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if(keyEvent.getCode() == KeyCode.SPACE){
                     System.out.println("End word!!");
+                    clearTypingTxtFld();
                 }
             }
         };
         typingTextField.addEventFilter(KeyEvent.ANY, eventHandlerTypingTxtFl);
     }
-
-    @FXML
-    public void startTyping(){
-        installEventHandlerWindow();
-    }
     @FXML public void startType(){
         resetTyping();
     }
 
+    private void clearTypingTxtFld(){
+
+        typingTextField.clear();
+    }
     public void resetTyping(){
         textFlow.getChildren().clear();
         setTypeItText(Color.CORAL);
