@@ -1,6 +1,7 @@
 package controllers;
 
 import base.PopupMaker;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
@@ -8,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -43,7 +46,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     private static int idxTypeIt = 0;
 
     @FXML
-    private FlowPane titleBar;
+    private GridPane titleBar;
     @FXML
     private FlowPane containerTypeText;
     @FXML
@@ -56,8 +59,9 @@ public class MainXMLController extends  BaseController implements Initializable{
     private TextFlow textFlow;
     @FXML
     private Button space;
+
     @FXML
-    private Button startBtn;
+    private TextField typingTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,13 +69,21 @@ public class MainXMLController extends  BaseController implements Initializable{
         dragUndecoratedWindow();
         setKeyboardThemes();
         setTypeItText();
-        installEventHandlerWindow();
-
-
-
-        textFlow.getStyleClass().add("textflow");
+        EventHandler<KeyEvent> eventHandlerTypingTxtFl = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode() == KeyCode.SPACE){
+                    System.out.println("End word!!");
+                }
+            }
+        };
+        typingTextField.addEventFilter(KeyEvent.ANY, eventHandlerTypingTxtFl);
     }
 
+    @FXML
+    public void startTyping(){
+        installEventHandlerWindow();
+    }
     @FXML public void startType(){
         resetTyping();
     }
@@ -156,7 +168,7 @@ public class MainXMLController extends  BaseController implements Initializable{
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
         PopupMaker popupMaker = new PopupMaker(primaryStage);
-        popupMaker.endOfTypingText(this);
+      //  popupMaker.endOfTypingText(this);
 
         Text oldTxt = new Text();
         Text newTxt = new Text();
@@ -240,9 +252,9 @@ public class MainXMLController extends  BaseController implements Initializable{
             Button btn = (Button)allBtn.get(i);
             btn.getStyleClass().remove("btn-typed");
 
-            if (keyCode == KeyCode.SPACE) {
-                space.getStyleClass().remove("btn-typed");
-                space.getStyleClass().add("btn-typed");
+            if (btn.getText().equals(character)) {
+                btn.getStyleClass().remove("btn-typed");
+                btn.getStyleClass().add("btn-typed");
                 //println(space);
             }
         }
