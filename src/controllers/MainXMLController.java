@@ -1,12 +1,17 @@
 package controllers;
 
 import base.PopupMaker;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -26,6 +31,7 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import model.DefaultTextModel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +63,12 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     @FXML
     private TextFlow textFlow;
-    @FXML
-    private Button space;
 
     @FXML
-    private TextField typingTextField;
+    private JFXHamburger jfxHambrger;
+
+    @FXML
+    private JFXDrawer jfxDrawerMainMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,33 +77,13 @@ public class MainXMLController extends  BaseController implements Initializable{
         setKeyboardThemes();
         setTypeItText();
         installEventHandlerWindow();
+        hamburgerTrans();
     }
 
-    @FXML
-    public void startTyping(){
-
-        //installEventHandlerWindow();
-        resetTyping();
-
-        EventHandler<KeyEvent> eventHandlerTypingTxtFl = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode() == KeyCode.SPACE){
-                    System.out.println("End word!!");
-                    clearTypingTxtFld();
-                }
-            }
-        };
-        typingTextField.addEventFilter(KeyEvent.ANY, eventHandlerTypingTxtFl);
-    }
     @FXML public void startType(){
         resetTyping();
     }
 
-    private void clearTypingTxtFld(){
-
-        typingTextField.clear();
-    }
     public void resetTyping(){
         textFlow.getChildren().clear();
         setTypeItText(Color.CORAL);
@@ -126,6 +113,39 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     /* ActionListners  */
 
+    private void hamburgerTrans(){
+        HamburgerSlideCloseTransition transition = new HamburgerSlideCloseTransition(jfxHambrger);
+        transition.setRate(-1);
+        jfxDrawerMainMenu.close();
+       // Parent parent = null;
+
+        try {
+            VBox parent = FXMLLoader.load(getClass().getResource("/views/drawer_content.fxml"));
+            jfxDrawerMainMenu.setSidePane(parent);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        jfxHambrger.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->{
+            transition.setRate(transition.getRate()*-1);
+            transition.play();
+
+
+                if(jfxDrawerMainMenu.isOpened()){
+                    jfxDrawerMainMenu.close();
+                }
+
+                else{
+                    //jfxDrawerMainMenu.minHeight(500);
+                    jfxDrawerMainMenu.open();
+
+                }
+
+        });
+    }
     private void dragUndecoratedWindow(){
 
            titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
