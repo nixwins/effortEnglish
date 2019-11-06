@@ -1,6 +1,6 @@
 package model;
 
-public class DefaultTextModel extends Model {
+public class DefaultTextModel {
 
     private String typeText = "As you can see";
 
