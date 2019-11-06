@@ -8,19 +8,34 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<VBox xmlns="http://javafx.com/javafx"
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXNodesList?>
+<VBox xmlns="http://javafx.com/javafx" stylesheets="@../styles/main.css"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.DrawerContentController"
-      prefHeight="700.0" prefWidth="200.0"
->
+      prefHeight="700.0" prefWidth="200.0" styleClass="vbox-menu">
 
-    <ImageView fitWidth="250" fitHeight="200">
-        <image>
-            <Image url="@../res/img/drawer_avatar_bg.jpg"/>
-        </image>
-    </ImageView>
-    <Button text="1"/>
-    <Button text="1"/>
-    <Button text="1"/>
-    <Button text="1"/>
+<!--    <ImageView fitWidth="250" fitHeight="200">-->
+<!--        <image>-->
+<!--            <Image url="@../res/img/drawer_avatar_bg.jpg"/>-->
+<!--        </image>-->
+<!--    </ImageView>-->
+
+
+
+    <JFXListView fx:id="jfxListMenu" styleClass="jfxListMenu" prefHeight="700">
+        <Label fx:id="chooseDB" text="Choose vac" styleClass="caption"  onMouseClicked="#listOfPhrases"/>
+             <Label text="Own vac" styleClass="caption"/>
+            <Label text="  Add vac" styleClass="menu-item"/>
+            <Label text="  Remove vac" styleClass="menu-item"/>
+            <Label text="  My vac" styleClass="menu-item"/>
+
+        <Label text="Memorize game" styleClass="caption"/>
+            <Label text="  Tetris" styleClass="menu-item"/>
+            <Label text="  Other" styleClass="menu-item"/>
+            <Label text="  Other" styleClass="menu-item"/>
+
+
+
+    </JFXListView>
 </VBox>

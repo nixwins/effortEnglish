@@ -1,6 +1,7 @@
 package base;
 
 import controllers.BaseController;
+import controllers.CategoryListController;
 import controllers.MainXMLController;
 import controllers.PopupEndOfTypingXMLController;
 import javafx.fxml.FXMLLoader;
@@ -41,6 +42,27 @@ public class PopupMaker {
         }
 
 
+
+        dialog.show();
+    }
+
+    public  void listOfCategory(BaseController controller){
+
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/category_list.fxml"));
+            Parent root  = fxmlLoader.load();
+            Scene dialogScene = new Scene(root);
+            dialog.setScene(dialogScene);
+            CategoryListController popupController = fxmlLoader.getController();
+            popupController.setMainController((MainXMLController) controller);
+
+        }catch (IOException e){
+            System.out.println("Loaded error");
+        }
 
         dialog.show();
     }

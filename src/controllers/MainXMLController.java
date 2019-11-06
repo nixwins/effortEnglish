@@ -130,19 +130,22 @@ public class MainXMLController extends  BaseController implements Initializable{
 
 
         jfxHambrger.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->{
-            transition.setRate(transition.getRate()*-1);
-            transition.play();
+            //transition.setRate(transition.getRate()*-1);
+
 
 
                 if(jfxDrawerMainMenu.isOpened()){
                     jfxDrawerMainMenu.close();
+                    transition.setRate(-1);
                 }
 
                 else{
                     //jfxDrawerMainMenu.minHeight(500);
                     jfxDrawerMainMenu.open();
+                    transition.setRate(1);
 
                 }
+            transition.play();
 
         });
     }

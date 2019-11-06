@@ -11,9 +11,7 @@ import javafx.scene.text.TextFlow;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PopupEndOfTypingXMLController implements Initializable {
-
-    private MainXMLController mainXMLController;
+public class PopupEndOfTypingXMLController extends BaseController implements Initializable {
 
     @FXML
     private GridPane rootPopup;
@@ -28,11 +26,9 @@ public class PopupEndOfTypingXMLController implements Initializable {
 
     @FXML
     private void restartTypingTextPopup(){
-        mainXMLController.resetTyping();
+        getMainXMLController().resetTyping();
     }
 
-    public void setMainController(MainXMLController controller){
-        mainXMLController = controller;
-    }
+
 
 }

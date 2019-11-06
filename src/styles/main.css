@@ -77,3 +77,18 @@
   -fx-text-fill:#ffffff;
 }
 
+.vbox-menu{
+    -fx-background-image:url('../res/img/drawer_avatar_bg.jpg');
+    -fx-background-size:cover;
+    -fx-background-repeat:none;
+}
+
+.caption{
+    -fx-font-size:20;
+    -fx-font-family:Verdana;
+    -fx-font-weight:bold;
+}
+.menu-item{
+    -fx-font-size:12;
+    -fx-font-family:Verdana;
+}
