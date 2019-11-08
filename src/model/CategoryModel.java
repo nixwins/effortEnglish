@@ -5,24 +5,29 @@ import java.sql.SQLException;
 
 public class CategoryModel extends Model {
 
-    public CategoryModel(){
-       // super();
-//        ResultSet rs;
-//
-//        try {
-//
-//            rs  = stmt.executeQuery("SELECT * FROM phrases;");
-//            while ( rs.next() ) {
-//
-//                int id = rs.getInt("id");
-//                System.out.println( "ID = " + id );
-//                System.out.println();
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    private String categoryName;
+    private int id;
 
+    public CategoryModel(){ }
 
+    public CategoryModel(int id, String categoryName){
+        this.categoryName = categoryName;
+        this.id = id;
+    }
+
+    public ResultSet getAllCategory(){
+
+        ResultSet rs = null;
+
+        try{
+
+            rs  = statement.executeQuery("SELECT * FROM category;");
+
+        } catch (Exception e){
+
+            e.printStackTrace();
+        }
+
+        return rs;
     }
 }

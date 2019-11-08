@@ -2,16 +2,18 @@ package model;
 
 import base.DBConnection;
 
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Model {
 
-    public Statement stmt;
+    public Statement statement;
 
     public Model(){
-       stmt = new DBConnection().getStatement();
+        statement = new DBConnection().getStatement();
+
     }
     public Statement getStmt(){
-        return stmt;
+        return statement;
     }
 }

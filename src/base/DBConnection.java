@@ -16,15 +16,15 @@ public class DBConnection {
             System.out.println("Opened database successfully");
             statement = connection.createStatement();
            // statement.executeQuery("SELECT * FROM phrases;");
-            ResultSet rs;
-
-                rs  = statement.executeQuery("SELECT * FROM phrases;");
-                while ( rs.next() ) {
-
-                    int id = rs.getInt("id");
-                    System.out.println( "ID = " + id );
-                    System.out.println();
-                }
+//            ResultSet rs;
+//
+//                rs  = statement.executeQuery("SELECT * FROM phrases;");
+//                while ( rs.next() ) {
+//
+//                    int id = rs.getInt("id");
+//                    System.out.println( "ID = " + id );
+//                    System.out.println();
+//                }
 
         }catch (Exception e){
 
