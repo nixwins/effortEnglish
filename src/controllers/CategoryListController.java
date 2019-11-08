@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
@@ -24,18 +26,38 @@ public class CategoryListController extends BaseController implements Initializa
     }
 
     private void renderCategoryList(ResultSet resultSet){
+
+        categoryList.setCellFactory(lv -> new ListCell<CategoryModel>(){
+            @Override
+            protected void updateItem(CategoryModel item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "" : item.getCategoryName());
+            }
+        });
+
+        ObservableList divisionListRow = FXCollections.observableArrayList();
+
         try {
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id"));
-                //categoryList.getItems().add(resultSet.getString("category_name"));
-                categoryList.setCellFactory(lv -> new ListCell<CategoryModel>(){
-                    @Override
-                    public void updateItem(CategoryModel item, Boolean empty){
 
-                    }
-                });
+                //Изменить Категори модель использовать другой калсс а то создает новый коннеткт каждый раз смотри Модель!
+                System.out.println(resultSet.getInt("id"));
+                divisionListRow.add(new CategoryModel(resultSet.getInt("id"), resultSet.getString("category_name")));
+                //categoryList.getItems().add(resultSet.getString("category_name"), resultSet.getInt("id"));
+                categoryList.setItems(divisionListRow);
+
             }
         }catch (Exception e){ e.printStackTrace(); }
+
+
+
+        CategoryModel selectedItem = categoryList.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            System.out.println("id = " + selectedItem.getId());
+        } else {
+            System.out.println("no item selected");
+        }
+
     }
 
 

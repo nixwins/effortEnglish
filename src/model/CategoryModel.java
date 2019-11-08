@@ -30,4 +30,12 @@ public class CategoryModel extends Model {
 
         return rs;
     }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public int getId() {
+        return id;
+    }
 }
