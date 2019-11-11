@@ -4,18 +4,13 @@ import base.PopupMaker;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,18 +20,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Modality;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import model.DefaultTextModel;
-
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class MainXMLController extends  BaseController implements Initializable{
@@ -44,10 +35,9 @@ public class MainXMLController extends  BaseController implements Initializable{
     private Stage primaryStage;
     private static double xOffset = 0;
     private static double yOffset = 0;
-
     private String typeIt;
     private List<Character> currentText = new ArrayList<>();
-    //private static int currTxtIndx = 0;
+    private PopupMaker popupMaker = new PopupMaker(primaryStage);
 
     private static int idxTypeIt = 0;
 
@@ -78,6 +68,7 @@ public class MainXMLController extends  BaseController implements Initializable{
         setTypeItText();
         installEventHandlerWindow();
         hamburgerTrans();
+        //setMainController(this);
     }
 
     @FXML public void startType(){
@@ -96,6 +87,11 @@ public class MainXMLController extends  BaseController implements Initializable{
         textFlow.getChildren().add(new Text(typeIt));
     }
 
+    public void setTypeItText(String phrases) {
+       // this.typeIt = new DefaultTextModel().getTypeText();
+        textFlow.getChildren().add(new Text("Pr"));
+    }
+
     public void setTypeItText(Color color) {
         this.typeIt = new DefaultTextModel().getTypeText();
         Text txt = new Text(typeIt);
@@ -107,6 +103,8 @@ public class MainXMLController extends  BaseController implements Initializable{
         primaryStage = stage;
     }
 
+
+
     private void println(Object object){
         System.out.println(object);
     }
@@ -114,10 +112,10 @@ public class MainXMLController extends  BaseController implements Initializable{
     /* ActionListners  */
 
     private void hamburgerTrans(){
+
         HamburgerSlideCloseTransition transition = new HamburgerSlideCloseTransition(jfxHambrger);
         transition.setRate(-1);
         jfxDrawerMainMenu.close();
-       // Parent parent = null;
 
         try {
             VBox parent = FXMLLoader.load(getClass().getResource("/views/drawer_content.fxml"));
@@ -127,12 +125,7 @@ public class MainXMLController extends  BaseController implements Initializable{
             e.printStackTrace();
         }
 
-
-
         jfxHambrger.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->{
-            //transition.setRate(transition.getRate()*-1);
-
-
 
                 if(jfxDrawerMainMenu.isOpened()){
                     jfxDrawerMainMenu.close();
@@ -140,7 +133,7 @@ public class MainXMLController extends  BaseController implements Initializable{
                 }
 
                 else{
-                    //jfxDrawerMainMenu.minHeight(500);
+
                     jfxDrawerMainMenu.open();
                     transition.setRate(1);
 
@@ -149,6 +142,7 @@ public class MainXMLController extends  BaseController implements Initializable{
 
         });
     }
+
     private void dragUndecoratedWindow(){
 
            titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -173,7 +167,9 @@ public class MainXMLController extends  BaseController implements Initializable{
        EventHandler<KeyEvent> keyEventEventHandler = new EventHandler<KeyEvent>() {
            @Override
            public void handle(KeyEvent keyEvent) {
-               changeBtnStyle(keyEvent.getCharacter(), keyEvent.getCode(), keyEvent.getEventType());
+
+               changeBtnStyle(keyEvent.getCharacter());
+
                if(keyEvent.getEventType() == KeyEvent.KEY_TYPED){
                    checkPressedChar(keyEvent.getCharacter().toCharArray()[0]);
                }
@@ -196,11 +192,7 @@ public class MainXMLController extends  BaseController implements Initializable{
         return allBtn;
     }
 
-    /*Logic*/
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
-
-        PopupMaker popupMaker = new PopupMaker(primaryStage);
-
 
         Text oldTxt = new Text();
         Text newTxt = new Text();
@@ -239,19 +231,14 @@ public class MainXMLController extends  BaseController implements Initializable{
 
         if(str.length() >= typeIt.length()){
             popupMaker.endOfTypingText(this);
-//            PopupMaker popupMaker = new PopupMaker();
-//            popupMaker.endOfTypingText(primaryStage);
-
 
         }
-        //println("Str length " + str.length() + " typeIt length " + typeIt.length());
+
         if(str.length() == typeIt.length() || str.length() < typeIt.length()){
 
             textFlow.getChildren().clear();
             textFlow.getChildren().addAll(newTxt, errTxt , oldTxt);
         }
-
-
     }
 
     private void checkPressedChar(char character){
@@ -261,13 +248,11 @@ public class MainXMLController extends  BaseController implements Initializable{
         if(idxTypeIt >= textArray.length) idxTypeIt = 0;
 
         if(textArray[idxTypeIt] == character){
-
-            println(character + " Right");
+            //println(character + " Right");
             renderPressedText(Character.toString(character), true, String.valueOf(textArray[idxTypeIt]));
             idxTypeIt++;
 
-        }else if(idxTypeIt <= textArray.length){
-
+        }else{
             //Если введенные символ не правильно то красим на Красный
             renderPressedText(Character.toString(character), false, String.valueOf(textArray[idxTypeIt]));
         }
@@ -275,7 +260,7 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     /* Вывести отдельный Класс Темы */
 
-    private void changeBtnStyle(String character, KeyCode keyCode, EventType eventType){
+    private void changeBtnStyle(String character){
 
         List<Node> allBtn = getKeyboardButton();
 

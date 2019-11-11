@@ -20,7 +20,9 @@ public class DrawerContentController extends  BaseController implements Initiali
 
     @FXML private void listOfPhrases(){
         PopupMaker popupMaker = new PopupMaker((Stage)chooseDB.getScene().getWindow());
-        popupMaker.listOfCategory(getMainXMLController());
+
+       // getMainXMLController().setTypeItText("HI");
+        popupMaker.listOfCategory();
     }
 
 }

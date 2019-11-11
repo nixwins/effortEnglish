@@ -34,8 +34,8 @@ public class PopupMaker {
             Parent root  = fxmlLoader.load();
             Scene dialogScene = new Scene(root);
             dialog.setScene(dialogScene);
-            PopupEndOfTypingXMLController popupController = fxmlLoader.getController();
-            popupController.setMainController((MainXMLController) controller);
+            ///PopupEndOfTypingXMLController popupController = fxmlLoader.getController();
+           /// popupController.setMainController((MainXMLController) controller);
 
         }catch (IOException e){
             System.out.println("Loaded error");
@@ -46,7 +46,7 @@ public class PopupMaker {
         dialog.show();
     }
 
-    public  void listOfCategory(BaseController controller){
+    public  void listOfCategory(){
 
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -57,8 +57,9 @@ public class PopupMaker {
             Parent root  = fxmlLoader.load();
             Scene dialogScene = new Scene(root);
             dialog.setScene(dialogScene);
-            CategoryListController popupController = fxmlLoader.getController();
-            popupController.setMainController((MainXMLController) controller);
+            //CategoryListController popupController = fxmlLoader.getController();
+            //popupController.setMainController((MainXMLController) controller);
+            //((MainXMLController) controller).setTypeItText("FROM POP UP");
 
         }catch (IOException e){
             System.out.println("Loaded error");

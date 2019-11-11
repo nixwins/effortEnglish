@@ -5,29 +5,22 @@ import java.sql.*;
 
 public class DBConnection {
 
-    private Connection connection = null;
+    private static Connection connection = null;
     private String url = "";
-    private Statement statement;
+    private static Statement statement;
 
     public DBConnection(){
+
         url  = "jdbc:sqlite:db/dbs3.db";
         try {
-            connection = DriverManager.getConnection(url);
-            System.out.println("Opened database successfully");
-            statement = connection.createStatement();
-           // statement.executeQuery("SELECT * FROM phrases;");
-//            ResultSet rs;
-//
-//                rs  = statement.executeQuery("SELECT * FROM phrases;");
-//                while ( rs.next() ) {
-//
-//                    int id = rs.getInt("id");
-//                    System.out.println( "ID = " + id );
-//                    System.out.println();
-//                }
+            if(connection == null){
+                connection = DriverManager.getConnection(url);
+                System.out.println("Opened database successfully");
+                statement = connection.createStatement();
+            }
 
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }

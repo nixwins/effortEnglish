@@ -1,12 +1,20 @@
 package controllers;
 
+import base.LVCellViewHolder;
+import com.jfoenix.controls.JFXListCell;
+import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import model.CategoryModel;
+import model.Model;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -15,19 +23,43 @@ import java.util.ResourceBundle;
 public class CategoryListController extends BaseController implements Initializable {
 
     @FXML
-    private ListView<CategoryModel> categoryList;
+    private JFXListView<CategoryModel> categoryList;
 
-    private CategoryModel categoryModel;
+    private CategoryModel categoryModel = new CategoryModel();;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        categoryModel = new CategoryModel();
+
         renderCategoryList(categoryModel.getAllCategory());
+        setEventListnerListvView();
+
+    }
+
+    private void setEventListnerListvView(){
+
+        EventHandler<MouseEvent> handler = mouseEvent -> {
+
+            CategoryModel selectedItem = categoryList.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                System.out.println("id = " + selectedItem.getId());
+                initMainController();
+                if(mainXMLController != null){
+                    getMainXMLController().setTypeItText(selectedItem.getCategoryName());
+                } else {
+                    System.out.println("Ctrl is null");
+                }
+
+            } else {
+                System.out.println("no item selected");
+            }
+        };
+        categoryList.addEventFilter(MouseEvent.MOUSE_CLICKED, handler);
+
     }
 
     private void renderCategoryList(ResultSet resultSet){
 
-        categoryList.setCellFactory(lv -> new ListCell<CategoryModel>(){
+        categoryList.setCellFactory(lv -> new LVCellViewHolder<>(){
             @Override
             protected void updateItem(CategoryModel item, boolean empty) {
                 super.updateItem(item, empty);
@@ -35,29 +67,27 @@ public class CategoryListController extends BaseController implements Initializa
             }
         });
 
-        ObservableList divisionListRow = FXCollections.observableArrayList();
+        ObservableList categoryListRow = FXCollections.observableArrayList();
 
         try {
             while (resultSet.next()) {
 
-                //Изменить Категори модель использовать другой калсс а то создает новый коннеткт каждый раз смотри Модель!
-                System.out.println(resultSet.getInt("id"));
-                divisionListRow.add(new CategoryModel(resultSet.getInt("id"), resultSet.getString("category_name")));
-                //categoryList.getItems().add(resultSet.getString("category_name"), resultSet.getInt("id"));
-                categoryList.setItems(divisionListRow);
-
+                categoryListRow.add(new CategoryModel(resultSet.getInt("id"), resultSet.getString("category_name")));
             }
-        }catch (Exception e){ e.printStackTrace(); }
-
-
-
-        CategoryModel selectedItem = categoryList.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            System.out.println("id = " + selectedItem.getId());
-        } else {
-            System.out.println("no item selected");
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
+        categoryList.setItems(categoryListRow);
+    }
+
+    public Node getView(){
+        return categoryList;
+    }
+
+    public void setItem(Model itemOut){
+        CategoryModel item = (CategoryModel) itemOut;
+        //System.out.println(item.getAllCategory());
     }
 
 

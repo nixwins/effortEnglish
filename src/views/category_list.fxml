@@ -6,12 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.jfoenix.controls.JFXListView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.CategoryListController"
             prefHeight="600.0" prefWidth="400.0">
 
-        <ListView fx:id="categoryList" prefHeight="600" prefWidth="400">
+        <JFXListView fx:id="categoryList" prefHeight="600" prefWidth="400">
             
-        </ListView>
+        </JFXListView>
 </AnchorPane>

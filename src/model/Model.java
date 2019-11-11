@@ -7,10 +7,11 @@ import java.sql.Statement;
 
 public class Model {
 
-    public Statement statement;
+    public static Statement statement;
 
     public Model(){
-        statement = new DBConnection().getStatement();
+
+       statement = new DBConnection().getStatement();
 
     }
     public Statement getStmt(){
