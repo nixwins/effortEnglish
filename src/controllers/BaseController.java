@@ -8,26 +8,15 @@ import java.io.IOException;
 
 public class BaseController {
 
-    protected MainXMLController mainXMLController;
+        protected MainXMLController mainXMLController;
 
-    public void setMainController(MainXMLController controller) {
-        mainXMLController = controller;
-    }
+        public MainXMLController getMainXMLController() {
 
-    public MainXMLController getMainXMLController() {
-        return mainXMLController;
-    }
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/main.xml.fxml"));
 
-    public BaseController(){
-        initMainController();
-    }
+            return fxmlLoader.getController();
 
-    public void initMainController(){
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/main.xml.fxml"));
-        mainXMLController = fxmlLoader.getController();
-
-    }
+        }
 
 
 }

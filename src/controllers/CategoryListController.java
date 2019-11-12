@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
@@ -32,19 +33,21 @@ public class CategoryListController extends BaseController implements Initializa
 
         renderCategoryList(categoryModel.getAllCategory());
         setEventListnerListvView();
-
     }
 
     private void setEventListnerListvView(){
 
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/main.xml.fxml"));
+        MainXMLController ctrlMain = fxmlLoader.getController();
+        System.out.println(ctrlMain);
         EventHandler<MouseEvent> handler = mouseEvent -> {
 
             CategoryModel selectedItem = categoryList.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 System.out.println("id = " + selectedItem.getId());
-                initMainController();
-                if(mainXMLController != null){
-                    getMainXMLController().setTypeItText(selectedItem.getCategoryName());
+                //initMainController();
+                if(ctrlMain != null){
+                    ctrlMain.setTypeItText(selectedItem.getCategoryName());
                 } else {
                     System.out.println("Ctrl is null");
                 }
@@ -84,11 +87,5 @@ public class CategoryListController extends BaseController implements Initializa
     public Node getView(){
         return categoryList;
     }
-
-    public void setItem(Model itemOut){
-        CategoryModel item = (CategoryModel) itemOut;
-        //System.out.println(item.getAllCategory());
-    }
-
 
 }
