@@ -209,7 +209,7 @@ public class MainXMLController extends  BaseController implements Initializable{
 
         return allBtn;
     }
-// Проверить баг если строке набираемый есть одинаковые буквы сидает в начале
+// Проверить баг если строке набираемый есть одинаковые буквы сидает в начале Еще поменять называния Топ 100 на называние категории
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
         Text oldTxt = new Text();
