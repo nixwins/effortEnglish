@@ -1,6 +1,7 @@
 package controllers;
 
 import com.sun.tools.javac.Main;
+import core.App;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -26,7 +27,7 @@ public class PopupEndOfTypingXMLController extends BaseController implements Ini
 
     @FXML
     private void restartTypingTextPopup(){
-        getMainXMLController().resetTyping();
+        App.getMainController().resetTyping();
     }
 
 

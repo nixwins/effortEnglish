@@ -1,4 +1,6 @@
+package core;
 
+import com.sun.tools.javac.Main;
 import controllers.MainXMLController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,12 @@ import javafx.stage.StageStyle;
 
 public class App  extends Application {
 
+    private static MainXMLController mainXMLController;
+
+    public static MainXMLController getMainController(){
+       /// System.out.println(mainXMLController);
+        return mainXMLController;
+    }
     public void start(Stage primaryStage){
 
         try{
@@ -17,8 +25,8 @@ public class App  extends Application {
 
             Parent root = fxmlLoader.load();
 
-            MainXMLController mainXMLController = fxmlLoader.getController();
-            mainXMLController.setMainController(mainXMLController);
+            mainXMLController = fxmlLoader.getController();
+            //mainXMLController.setMainController(mainXMLController);
             mainXMLController.setPrimaryStage(primaryStage);
 
             Scene scene = new Scene(root);

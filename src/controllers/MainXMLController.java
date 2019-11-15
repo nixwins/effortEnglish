@@ -41,6 +41,7 @@ public class MainXMLController extends  BaseController implements Initializable{
 
     private static int idxTypeIt = 0;
 
+
     @FXML
     private GridPane titleBar;
     @FXML
@@ -60,12 +61,14 @@ public class MainXMLController extends  BaseController implements Initializable{
     @FXML
     private JFXDrawer jfxDrawerMainMenu;
 
+    private HamburgerSlideCloseTransition transition;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         dragUndecoratedWindow();
         setKeyboardThemes();
-        setTypeItText();
+        //setTypeItText();
         installEventHandlerWindow();
         hamburgerTrans();
         //setMainController(this);
@@ -80,6 +83,16 @@ public class MainXMLController extends  BaseController implements Initializable{
         setTypeItText(Color.CORAL);
         idxTypeIt = 0;
         currentText = new ArrayList<>();
+
+       closeDrawerMenu();
+    }
+    public void resetTyping(String phrases){
+        textFlow.getChildren().clear();
+        setTypeItText(phrases);
+        idxTypeIt = 0;
+        currentText = new ArrayList<>();
+
+        closeDrawerMenu();
     }
 
     public void setTypeItText() {
@@ -88,8 +101,9 @@ public class MainXMLController extends  BaseController implements Initializable{
     }
 
     public void setTypeItText(String phrases) {
-       // this.typeIt = new DefaultTextModel().getTypeText();
-        textFlow.getChildren().add(new Text("Pr"));
+
+        this.typeIt = phrases;
+        textFlow.getChildren().add(new Text(phrases));
     }
 
     public void setTypeItText(Color color) {
@@ -103,19 +117,23 @@ public class MainXMLController extends  BaseController implements Initializable{
         primaryStage = stage;
     }
 
+    private void closeDrawerMenu(){
 
-
-    private void println(Object object){
-        System.out.println(object);
+        System.out.println(transition.getCurrentRate());
+        transition.setRate(-1);
+        jfxDrawerMainMenu.close();
+        transition.play();
     }
+
+
 
     /* ActionListners  */
 
     private void hamburgerTrans(){
-
-        HamburgerSlideCloseTransition transition = new HamburgerSlideCloseTransition(jfxHambrger);
+        transition = new HamburgerSlideCloseTransition(jfxHambrger);
         transition.setRate(-1);
         jfxDrawerMainMenu.close();
+
 
         try {
             VBox parent = FXMLLoader.load(getClass().getResource("/views/drawer_content.fxml"));
@@ -191,7 +209,7 @@ public class MainXMLController extends  BaseController implements Initializable{
 
         return allBtn;
     }
-
+// Проверить баг если строке набираемый есть одинаковые буквы сидает в начале
     public void renderPressedText(String pressedChar, boolean correct, String nextChar){
 
         Text oldTxt = new Text();

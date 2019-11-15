@@ -20,6 +20,8 @@ import model.Model;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import core.App;
+import model.PhraseModel;
 
 public class CategoryListController extends BaseController implements Initializable {
 
@@ -37,20 +39,14 @@ public class CategoryListController extends BaseController implements Initializa
 
     private void setEventListnerListvView(){
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/main.xml.fxml"));
-        MainXMLController ctrlMain = fxmlLoader.getController();
-        System.out.println(ctrlMain);
         EventHandler<MouseEvent> handler = mouseEvent -> {
 
             CategoryModel selectedItem = categoryList.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 System.out.println("id = " + selectedItem.getId());
-                //initMainController();
-                if(ctrlMain != null){
-                    ctrlMain.setTypeItText(selectedItem.getCategoryName());
-                } else {
-                    System.out.println("Ctrl is null");
-                }
+
+                categoryList.getScene().getWindow().hide();
+                App.getMainController().resetTyping(new PhraseModel().getAll(selectedItem.getId()));
 
             } else {
                 System.out.println("no item selected");

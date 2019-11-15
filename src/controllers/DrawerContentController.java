@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DrawerContentController extends  BaseController implements Initializable {
+    private static PopupMaker popupMaker;
 
     @FXML
     private Label chooseDB;
@@ -19,10 +20,15 @@ public class DrawerContentController extends  BaseController implements Initiali
     }
 
     @FXML private void listOfPhrases(){
-        PopupMaker popupMaker = new PopupMaker((Stage)chooseDB.getScene().getWindow());
+        popupMaker = new PopupMaker((Stage)chooseDB.getScene().getWindow());
 
        // getMainXMLController().setTypeItText("HI");
         popupMaker.listOfCategory();
+    }
+
+    public static void closeDrawerMenu(boolean show){
+        popupMaker.listOfCategory(show);
+
     }
 
 }
