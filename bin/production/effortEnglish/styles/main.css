@@ -1,0 +1,94 @@
+.MTrimBar {
+    background-color: #000000;
+}
+#rootGird{
+    -fx-background-color:#424250; /*#424250;*/
+    /* dark:38006b; light:9c4dcc*/
+}
+
+.titleBar{
+    /*-fx-background-color:#000000;*/
+}
+
+#wraperKeyboardRow{
+    -fx-background-color:#33333D;
+}
+
+.btn-default-theme{
+    -fx-padding:5 10 5 10;
+    -fx-border-radius:5;
+    -fx-background-color:orange;
+    -fx-text-fill:white;
+    -fx-font-weight:bold;
+    -fx-border:1;
+    -fx-border-color:orange;
+    -fx-font-size:18;
+    -fx-font-family:'Verdana';
+
+}
+
+.btn-typed{
+    -fx-background-color:#4CAF50;
+}
+
+.typing-textflow{
+    -fx-background-color:#ffffff;
+    -fx-font-size:18;
+    -fx-font-family:Verdana;
+}
+
+.popup{
+    -fx-background-color:red;
+}
+
+.statics-wrapper{
+    fx-background-color:#424250;
+}
+
+.btn-new-game{
+
+    -fx-background-color: #1A8FDD;
+    -fx-font-family: Roboto;
+    -fx-font-style: normal;
+    -fx-font-weight: normal;
+    -fx-font-size: 14;
+    -fx-line-height: 16;
+    -fx-display: flex;
+    -fx-align-items: center;
+    -fx-text-align: center;
+    -fx-text-fill: #FFFFFF;
+}
+
+.btn-exit-app{
+    -fx-background-image:url('../res/img/close-btn.jpeg');
+    -fx-background-color:#424250;
+}
+.typingTextField{
+    -fx-background-color:#ffffff;
+    -fx-font-size:16;
+
+}
+.restartFlow{
+    -fx-background-color:#33333D;
+}
+.category-name{
+   -fx-font-size: 20;
+  -fx-font-family: Roboto;
+  -fx-text-fill:#ffffff;
+}
+
+.vbox-menu{
+    -fx-background-image:url('../res/img/drawer_avatar_bg.jpg');
+    -fx-background-size:cover;
+    -fx-background-repeat:none;
+}
+
+.caption{
+    -fx-font-size:20;
+    -fx-font-family:Verdana;
+    -fx-font-weight:bold;
+}
+.menu-item{
+    -fx-font-size:12;
+    -fx-font-family:Verdana;
+}

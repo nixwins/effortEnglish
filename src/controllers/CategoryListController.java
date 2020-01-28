@@ -58,13 +58,13 @@ public class CategoryListController extends BaseController implements Initializa
 
     private void renderCategoryList(ResultSet resultSet){
 
-        categoryList.setCellFactory(lv -> new LVCellViewHolder<>(){
-            @Override
-            protected void updateItem(CategoryModel item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getCategoryName());
-            }
-        });
+//        categoryList.setCellFactory(lv -> new LVCellViewHolder(){
+//            @Override
+//            protected void updateItem(CategoryModel item, boolean empty) {
+//                super.updateItem(item, empty);
+//                setText(empty || item == null ? "" : item.getCategoryName());
+//            }
+//        });
 
         ObservableList categoryListRow = FXCollections.observableArrayList();
 
